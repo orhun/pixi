@@ -243,7 +243,7 @@ mod tests {
         let project = Project::from_str(Path::new(""), manifest_str).unwrap();
         let search = SearchEnvironments::from_opt_env(&project, None, None);
         let result = search.find_task("test".into(), FindTaskSource::CmdArgs);
-        assert!(matches!(result, Err(FindTaskError::AmbiguousTask(_))));
+        assert_eq!("", result.unwrap_err().to_string());
     }
 
     #[test]
@@ -269,7 +269,7 @@ mod tests {
         let project = Project::from_str(Path::new(""), manifest_str).unwrap();
         let search = SearchEnvironments::from_opt_env(&project, None, None);
         let result = search.find_task("test".into(), FindTaskSource::CmdArgs);
-        assert!(matches!(result, Err(FindTaskError::AmbiguousTask(_))));
+        assert_eq!("", result.unwrap_err().to_string());
 
         // With explicit environment
         let search =
@@ -334,6 +334,6 @@ mod tests {
         let search = SearchEnvironments::from_opt_env(&project, None, None);
         let result = search.find_task("bla".into(), FindTaskSource::CmdArgs);
         // Ambiguous task because it is the same name and code but it is defined in different environments
-        assert!(matches!(result, Err(FindTaskError::AmbiguousTask(_))));
+        assert_eq!("", result.unwrap_err().to_string());
     }
 }
