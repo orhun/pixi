@@ -204,10 +204,13 @@ jobs:
           CARGO_TEST_OPTIONS="${CARGO_TEST_OPTIONS} --features ${{ env.TEST_FEATURES }}"
           echo "CARGO_TEST_OPTIONS=${CARGO_TEST_OPTIONS}" >> $GITHUB_OUTPUT
 
+      - name: Install cargo-nextest
+        uses: taiki-e/install-action@nextest
+
       - name: Run tests
         if: ${{ !matrix.skip-tests }}
         run: >
-          cargo test
+          cargo nextest run
           --locked
           --release
           ${{ steps.build-options.outputs.CARGO_BUILD_OPTIONS}}
